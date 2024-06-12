@@ -1,0 +1,9 @@
+streamlit
+pillow
+numpy
+langchain
+langchain-google-genai
+langchain-community
+langchain-core
+chroma
+chromadb
