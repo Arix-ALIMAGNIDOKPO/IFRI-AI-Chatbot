@@ -8,3 +8,6 @@ langchain-core
 chroma
 chromadb
 pypdf
+sqlite=3.35.0
+numpy
+pandas
