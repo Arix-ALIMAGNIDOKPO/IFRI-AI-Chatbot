@@ -7,3 +7,4 @@ langchain-community
 langchain-core
 chroma
 chromadb
+pypdf
