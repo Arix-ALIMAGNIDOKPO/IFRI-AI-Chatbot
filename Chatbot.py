@@ -87,7 +87,7 @@ def select_embeddings_model(LLM_service="Google"):
     if LLM_service == "HuggingFace":
         embeddings = HuggingFaceInferenceAPIEmbeddings(
             api_key="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",
-            model_name="sentence-transformers/all-MiniLM-L6-v2"
+            model_name="sentence-transformers/all-MiniLM-L12-v2"
         )
 
     return embeddings
@@ -114,7 +114,7 @@ vector_store_google = create_vectorstore(
     )
 print("vector_store_google:",vector_store_google._collection.count(),"chunks.")
 
-def Vectorstore_backed_retriever(vectorstore,search_type="similarity",k=4,score_threshold=None):
+def Vectorstore_backed_retriever(vectorstore,search_type="similarity",k=5,score_threshold=None):
     """create a vectorsore-backed retriever
     Parameters:
         search_type: Defines the type of search that the Retriever should perform.
@@ -135,7 +135,7 @@ def Vectorstore_backed_retriever(vectorstore,search_type="similarity",k=4,score_
     return retriever
 
 
-base_retriever_google = Vectorstore_backed_retriever(vector_store_google,"similarity",k=10)
+base_retriever_google = Vectorstore_backed_retriever(vector_store_google,"similarity",k=5)
 
 def instantiate_LLM(LLM_provider="HuggingFace",api_key="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",temperature=0.5,top_p=0.95,model_name=None):
     """Instantiate LLM in Langchain.
@@ -168,7 +168,7 @@ def instantiate_LLM(LLM_provider="HuggingFace",api_key="hf_qacSNZvozCoeQfQCkxpbR
     if LLM_provider == "HuggingFace":
         llm = HuggingFaceHub(
             # repo_id="mistralai/Mistral-7B-Instruct-v0.2",
-            repo_id=model_name,
+            repo_id="meta-llama/Meta-Llama-3-8B-Instruct",
             huggingfacehub_api_token=api_key,
             model_kwargs={
                 "temperature":temperature,
@@ -314,14 +314,13 @@ Standalone question:"""
 
 chain_gemini,memory_gemini = custom_ConversationalRetrievalChain(
     llm = instantiate_LLM(
-        LLM_provider="Google",api_key="AIzaSyCMA5G8t2UnD5q92arsYrwAbSm19xZlZV4",temperature=0.5,model_name="gemini-pro"
-    ),
+         LLM_provider="Google",api_key="AIzaSyCMA5G8t2UnD5q92arsYrwAbSm19xZlZV4",temperature=0.5,model_name="gemini-1.5-pro"),
     condense_question_llm = instantiate_LLM(
-        LLM_provider="Google",api_key="AIzaSyCMA5G8t2UnD5q92arsYrwAbSm19xZlZV4",temperature=0.1,model_name="gemini-pro"),
+    LLM_provider="Google",api_key="AIzaSyCMA5G8t2UnD5q92arsYrwAbSm19xZlZV4",temperature=0.1,model_name="gemini-1.5-pro"),
     retriever=base_retriever_google,
     language="french",
     llm_provider="Google",
-    model_name="gemini-pro"
+    model_name="gemini-1.5-pro"
 )
 
 
@@ -344,8 +343,16 @@ for msg in st.session_state.messages:
 if prompt := st.chat_input():
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
-    response = chain_gemini.invoke({"question":prompt})
+    
+    # Afficher un spinner pendant le traitement de la question
+    with st.spinner('Traitement de la question en cours...'):
+        response = chain_gemini.invoke({"question":prompt})
+        
     msg = response['answer'].content
     st.session_state.messages.append({"role": "assistant", "content": msg})
-    st.chat_message("assistant").write(msg)
-    memory_gemini.save_context( {"question": prompt}, {"answer": msg} )
+    
+    # Afficher un spinner pendant la génération de la réponse    
+    with st.spinner('Génération de la réponse en cours...'):
+        st.chat_message("assistant").write(msg)
+        
+    memory_gemini.save_context({"question": prompt}, {"answer": msg})
