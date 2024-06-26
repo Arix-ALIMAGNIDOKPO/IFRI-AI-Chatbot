@@ -6,8 +6,9 @@ langchain-google-genai
 langchain-community
 langchain-core
 chroma
-chromadb
+chromadb==0.3.29
 pypdf
 numpy
 pandas
 db-sqlite3
+pysqlite3-binary
