@@ -10,3 +10,4 @@ chromadb
 pypdf
 numpy
 pandas
+db-sqlite3
