@@ -1,6 +1,6 @@
-__import__('pysqlite3')
+''''__import__('pysqlite3')
 import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')''''
 import streamlit as st
 
 #Importations
@@ -74,7 +74,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 chunks = text_splitter.split_documents(documents=documents)
 print(f"number of chunks: {len(chunks)}")
 
-def select_embeddings_model(LLM_service="Google"):
+def select_embeddings_model(LLM_service="HuggingFace"):
     """Connect to the embeddings API endpoint by specifying the name of the embedding model."""
     if LLM_service == "OpenAI":
         embeddings = OpenAIEmbeddings(
