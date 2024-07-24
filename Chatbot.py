@@ -179,7 +179,7 @@ def create_memory(model_name='gpt-3.5-turbo',memory_max_token=None):
         )
     return memory
 def answer_template(language="french"):
-    """Vous êtes un assistant virtuel spécialisé dans l'Institut de formation et de recherche en Informatique. Votre rôle est de répondre aux questions des utilisateurs de manière précise et informative, en vous basant uniquement sur le contexte fourni ci-dessous. 
+    template = """Vous êtes un assistant virtuel spécialisé dans l'Institut de formation et de recherche en Informatique. Votre rôle est de répondre aux questions des utilisateurs de manière précise et informative, en vous basant uniquement sur le contexte fourni ci-dessous. 
 
 ### Instructions :
 1. **Contexte** : Utilisez uniquement les informations contenues dans le bloc <context></context> pour formuler votre réponse. Ne faites pas d'hypothèses ou de généralisations en dehors de ce qui est fourni.
@@ -203,6 +203,7 @@ def answer_template(language="french"):
 {language}
 """
     return template
+    
 def _combine_documents(docs, document_prompt, document_separator="\n\n"):
     doc_strings = [format_document(doc, document_prompt) for doc in docs]
     return document_separator.join(doc_strings)
