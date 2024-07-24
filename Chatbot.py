@@ -207,7 +207,7 @@ def create_memory(model_name='gpt-3.5-turbo',memory_max_token=None):
     return memory
 
 
-def answer_template():
+def answer_template(language):
     """Pass the standalone question along with the chat history and context (retrieved documents) to the `LLM` to get an answer."""
 
     template = f"""Vous êtes un assistant virtuel spécialisé dans l'Institut de formation et de recherche en Informatique. Votre rôle est de répondre aux questions des utilisateurs de manière précise et informative, en vous basant uniquement sur le contexte fourni ci-dessous. 
