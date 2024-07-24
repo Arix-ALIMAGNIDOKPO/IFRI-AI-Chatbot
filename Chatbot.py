@@ -60,8 +60,6 @@ text_splitter = RecursiveCharacterTextSplitter(
 # Text splitting
 chunks = text_splitter.split_documents(documents=documents)
 print(f"number of chunks: {len(chunks)}")
-
-def select_embeddings_model(LLM_service="Google"):
 def select_embeddings_model(LLM_service="HuggingFace"):
     """Connect to the embeddings API endpoint by specifying the name of the embedding model."""
     if LLM_service == "OpenAI":
