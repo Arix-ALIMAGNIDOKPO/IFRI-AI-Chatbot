@@ -241,7 +241,7 @@ def _combine_documents(docs, document_prompt, document_separator="\n\n"):
 def custom_ConversationalRetrievalChain(
     llm,condense_question_llm,
     retriever,
-    language="english",
+    language="french",
     llm_provider="OpenAI",
     model_name='gpt-3.5-turbo',
 ):
