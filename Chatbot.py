@@ -326,8 +326,8 @@ chain_gemini,memory_gemini = custom_ConversationalRetrievalChain(
     llm = instantiate_LLM(),
     condense_question_llm = instantiate_LLM(),
     retriever=base_retriever_google,
-    #llm_provider="HuggingFace",
-    #model_name="mistralai/Mistral-Nemo-Instruct-2407"
+    llm_provider="Google",
+    model_name="gemini-1.5-pro"
 )
 
 
