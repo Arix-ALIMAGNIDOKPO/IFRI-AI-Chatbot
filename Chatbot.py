@@ -328,7 +328,6 @@ chain_gemini,memory_gemini = custom_ConversationalRetrievalChain(
     llm = instantiate_LLM(),
     condense_question_llm = instantiate_LLM(),
     retriever=base_retriever_google,
-    retriever=base_retriever_google,
     language="french",
     llm_provider="HuggingFace",
     model_name="mistralai/Mistral-Nemo-Instruct-2407"
