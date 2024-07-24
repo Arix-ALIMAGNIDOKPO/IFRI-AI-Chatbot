@@ -217,9 +217,7 @@ def answer_template():
    
 2. **Clarté et Concision** : Votre réponse doit être claire, concise et directement liée à la question posée. Évitez les réponses vagues ou trop longues.
 
-3. **Langue** : Formulez votre réponse dans la langue spécifiée à la fin de la question.
-
-4. **Pertinence** : Assurez-vous que votre réponse est pertinente par rapport à l'historique de la conversation et au contexte fourni. Si vous ne trouvez pas d'information pertinente, indiquez-le clairement.
+3. **Pertinence** : Assurez-vous que votre réponse est pertinente par rapport à l'historique de la conversation et au contexte fourni. Si vous ne trouvez pas d'information pertinente, indiquez-le clairement.
 
 ### Contexte :
 <context>
@@ -328,8 +326,8 @@ chain_gemini,memory_gemini = custom_ConversationalRetrievalChain(
     llm = instantiate_LLM(),
     condense_question_llm = instantiate_LLM(),
     retriever=base_retriever_google,
-    llm_provider="HuggingFace",
-    model_name="mistralai/Mistral-Nemo-Instruct-2407"
+    #llm_provider="HuggingFace",
+    #model_name="mistralai/Mistral-Nemo-Instruct-2407"
 )
 
 
