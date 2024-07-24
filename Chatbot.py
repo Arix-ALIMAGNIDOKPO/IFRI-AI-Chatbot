@@ -194,7 +194,7 @@ def answer_template(language="french"):
 <context>
 {{chat_history}}
 
-{{contexte}}
+{{context}}
 </context>
 
 ### Question :
