@@ -327,10 +327,7 @@ Standalone question:"""
 chain_gemini,memory_gemini = custom_ConversationalRetrievalChain(
     llm = instantiate_LLM(),
     condense_question_llm = instantiate_LLM(),
-    retriever=base_retriever_google,
-    language="french",
-    llm_provider="HuggingFace",
-    # model_name="gemini-1.5-pro"
+    retriever=base_retriever_google
 )
 
 
