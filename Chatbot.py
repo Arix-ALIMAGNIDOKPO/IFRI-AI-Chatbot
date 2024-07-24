@@ -170,8 +170,8 @@ def instantiate_LLM(LLM_provider="HuggingFace",api_key="hf_qacSNZvozCoeQfQCkxpbR
         )
     if LLM_provider == "HuggingFace":
         llm = HuggingFaceHub(
-            # repo_id="mistralai/Mistral-7B-Instruct-v0.2",
-            repo_id="meta-llama/Meta-Llama-3-8B-Instruct",
+            # repo_id="mistralai/Mistral-Nemo-Instruct-2407",
+            repo_id="mistralai/Mistral-Nemo-Instruct-2407",
             huggingfacehub_api_token=api_key,
             model_kwargs={
                 "temperature":temperature,
@@ -207,21 +207,30 @@ def create_memory(model_name='gpt-3.5-turbo',memory_max_token=None):
     return memory
 
 
-def answer_template(language="french"):
+def answer_template():
     """Pass the standalone question along with the chat history and context (retrieved documents) to the `LLM` to get an answer."""
 
-    template = f"""Answer the question at the end, using only the following context (delimited by <context></context>).
-Your answer must be in the language at the end.
+    template = f"""Vous êtes un assistant virtuel spécialisé dans l'Institut de formation et de recherche en Informatique. Votre rôle est de répondre aux questions des utilisateurs de manière précise et informative, en vous basant uniquement sur le contexte fourni ci-dessous. 
 
+### Instructions :
+1. **Contexte** : Utilisez uniquement les informations contenues dans le bloc <context></context> pour formuler votre réponse. Ne faites pas d'hypothèses ou de généralisations en dehors de ce qui est fourni.
+   
+2. **Clarté et Concision** : Votre réponse doit être claire, concise et directement liée à la question posée. Évitez les réponses vagues ou trop longues.
+
+3. **Langue** : Formulez votre réponse dans la langue spécifiée à la fin de la question.
+
+4. **Pertinence** : Assurez-vous que votre réponse est pertinente par rapport à l'historique de la conversation et au contexte fourni. Si vous ne trouvez pas d'information pertinente, indiquez-le clairement.
+
+### Contexte :
 <context>
 {{chat_history}}
 
-{{context}}
+{{contexte}}
 </context>
 
-Question: {{question}}
+### Question :
+{{question}} 
 
-Language: {language}.
 """
     return template
 
@@ -316,14 +325,12 @@ Standalone question:"""
 
 
 chain_gemini,memory_gemini = custom_ConversationalRetrievalChain(
-    llm = instantiate_LLM(
-         LLM_provider="Google",api_key="AIzaSyCMA5G8t2UnD5q92arsYrwAbSm19xZlZV4",temperature=0.5,model_name="gemini-1.5-pro"),
-    condense_question_llm = instantiate_LLM(
-    LLM_provider="Google",api_key="AIzaSyCMA5G8t2UnD5q92arsYrwAbSm19xZlZV4",temperature=0.1,model_name="gemini-1.5-pro"),
+    llm = instantiate_LLM(),
+    condense_question_llm = instantiate_LLM(),
     retriever=base_retriever_google,
     language="french",
-    llm_provider="Google",
-    model_name="gemini-1.5-pro"
+    llm_provider="HuggingFace",
+    # model_name="gemini-1.5-pro"
 )
 
 
