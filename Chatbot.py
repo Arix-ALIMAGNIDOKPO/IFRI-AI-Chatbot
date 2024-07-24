@@ -1,5 +1,7 @@
 __import__('pysqlite3')
 import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import streamlit as st
 
 #Importations
@@ -60,6 +62,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 # Text splitting
 chunks = text_splitter.split_documents(documents=documents)
 print(f"number of chunks: {len(chunks)}")
+def select_embeddings_model(LLM_service="Google"):
 def select_embeddings_model(LLM_service="HuggingFace"):
     """Connect to the embeddings API endpoint by specifying the name of the embedding model."""
     if LLM_service == "OpenAI":
@@ -179,30 +182,17 @@ def create_memory(model_name='gpt-3.5-turbo',memory_max_token=None):
         )
     return memory
 def answer_template(language="french"):
-    template = """Vous êtes un assistant virtuel spécialisé dans l'Institut de formation et de recherche en Informatique. Votre rôle est de répondre aux questions des utilisateurs de manière précise et informative, en vous basant uniquement sur le contexte fourni ci-dessous. 
-
-### Instructions :
-1. **Contexte** : Utilisez uniquement les informations contenues dans le bloc <context></context> pour formuler votre réponse. Ne faites pas d'hypothèses ou de généralisations en dehors de ce qui est fourni.
-   
-2. **Clarté et Concision** : Votre réponse doit être claire, concise et directement liée à la question posée. Évitez les réponses vagues ou trop longues.
-
-3. **Langue** : Formulez votre réponse dans la langue spécifiée à la fin de la question.
-
-4. **Pertinence** : Assurez-vous que votre réponse est pertinente par rapport à l'historique de la conversation et au contexte fourni. Si vous ne trouvez pas d'information pertinente, indiquez-le clairement.
-
-### Contexte :
+    """Pass the standalone question along with the chat history and context (retrieved documents) to the `LLM` to get an answer."""
+    template = f"""Answer the question at the end, using only the following context (delimited by <context></context>).
+Your answer must be in the language at the end.
 <context>
 {{chat_history}}
 {{context}}
 </context>
-
-### Question :
-{{question}}
-###Language: 
-{language}.
+Question: {{question}}
+Language: {language}.
 """
     return template
-    
 def _combine_documents(docs, document_prompt, document_separator="\n\n"):
     doc_strings = [format_document(doc, document_prompt) for doc in docs]
     return document_separator.join(doc_strings)
