@@ -193,14 +193,13 @@ def answer_template(language="french"):
 ### Contexte :
 <context>
 {{chat_history}}
-
 {{context}}
 </context>
 
 ### Question :
 {{question}}
 ###Language: 
-{language}
+{language}.
 """
     return template
     
